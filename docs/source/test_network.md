@@ -34,7 +34,7 @@ You can find the scripts to bring up the network in the `test-network` directory
 of the ``fabric-samples`` repository. Navigate to the test network directory by
 using the following command:
 ```
-cd fabric-samples/test-network
+$ cd fabric-samples/test-network
 ```
 
 In this directory, you can find an annotated script, ``network.sh``, that stands
@@ -91,13 +91,13 @@ Usage:
 From inside the `test-network` directory, run the following command to remove
 any containers or artifacts from any previous runs:
 ```
-./network.sh down
+$ ./network.sh down
 ```
 
 You can then bring up the network by issuing the following command. You will
 experience problems if you try to run the script from another directory:
 ```
-./network.sh up
+$ ./network.sh up
 ```
 
 This command creates a Fabric network that consists of two peer nodes, one
@@ -132,7 +132,7 @@ components. Run the following command to list all of Docker containers that
 are running on your machine. You should see the three nodes that were created by
 the `network.sh` script:
 ```
-docker ps -a
+$ docker ps -a
 ```
 
 Each node and user that interacts with a Fabric network needs to belong to an
@@ -186,7 +186,7 @@ You can use the `network.sh` script to create a channel between Org1 and Org2
 and join their peers to the channel. Run the following command to create a
 channel with the default name of `mychannel`:
 ```
-./network.sh createChannel
+$ ./network.sh createChannel
 ```
 If the command was successful, you can see the following message printed in your
 logs:
@@ -197,14 +197,14 @@ logs:
 You can also use the channel flag to create a channel with custom name. As an
 example, the following command would create a channel named `channel1`:
 ```
-./network.sh createChannel -c channel1
+$ ./network.sh createChannel -c channel1
 ```
 
 The channel flag also allows you to create multiple channels by specifying
 different channel names. After you create `mychannel` or `channel1`, you can use
 the command below to create a second channel named `channel2`:
 ```
-./network.sh createChannel -c channel2
+$ ./network.sh createChannel -c channel2
 ```
 
 **NOTE:** Make sure the name of the channel applies the following restrictions:
@@ -216,7 +216,7 @@ the command below to create a second channel named `channel2`:
 If you want to bring up the network and create a channel in a single step, you
 can use the `up` and `createChannel` modes together:
 ```
-./network.sh up createChannel
+$ ./network.sh up createChannel
 ```
 
 ## Starting a chaincode on the channel
@@ -253,14 +253,14 @@ chaincode is ready to be used.
 After you have used the `network.sh` to create a channel, you can start a
 chaincode on the channel using the following command:
 ```
-./network.sh deployCC -ccn basic -ccp ../asset-transfer-basic/chaincode-go -ccl go
+$ ./network.sh deployCC -ccn basic -ccp ../asset-transfer-basic/chaincode-go -ccl go
 ```
 The `deployCC` subcommand will install the **asset-transfer (basic)** chaincode on
 ``peer0.org1.example.com`` and ``peer0.org2.example.com`` and then deploy
 the chaincode on the channel specified using the channel flag (or `mychannel`
 if no channel is specified).  If you are deploying a chaincode for the first
 time, the script will install the chaincode dependencies. You can use the
-language flag, `-l`, to install the Go, typescript or javascript versions of the chaincode.
+language flag, `-ccl`, to install the Go, typescript or javascript versions of the chaincode.
 You can find the asset-transfer (basic) chaincode in the `asset-transfer-basic` folder of the `fabric-samples`
 directory. This folder contains sample chaincode that are provided as examples and
 used by tutorials to highlight Fabric features.
@@ -276,12 +276,12 @@ followed the instructions to [install the Samples, Binaries and Docker Images](i
 You can find the `peer` binaries in the `bin` folder of the `fabric-samples`
 repository. Use the following command to add those binaries to your CLI Path:
 ```
-export PATH=${PWD}/../bin:$PATH
+$ export PATH=${PWD}/../bin:$PATH
 ```
 You also need to set the `FABRIC_CFG_PATH` to point to the `core.yaml` file in
 the `fabric-samples` repository:
 ```
-export FABRIC_CFG_PATH=$PWD/../config/
+$ export FABRIC_CFG_PATH=$PWD/../config/
 ```
 You can now set the environment variables that allow you to operate the `peer`
  CLI as Org1:
@@ -302,7 +302,7 @@ If you used `./network.sh deployCC -ccl go` to install and start the asset-trans
 
 Run the following command to initialize the ledger with assets:
 ```
-peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls --cafile "${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem" -C mychannel -n basic --peerAddresses localhost:7051 --tlsRootCertFiles "${PWD}/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt" --peerAddresses localhost:9051 --tlsRootCertFiles "${PWD}/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt" -c '{"function":"InitLedger","Args":[]}'
+$ peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls --cafile "${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem" -C mychannel -n basic --peerAddresses localhost:7051 --tlsRootCertFiles "${PWD}/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt" --peerAddresses localhost:9051 --tlsRootCertFiles "${PWD}/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt" -c '{"function":"InitLedger","Args":[]}'
 ```
 If successful, you should see similar output to below:
 ```
@@ -310,7 +310,7 @@ If successful, you should see similar output to below:
 ```
 You can now query the ledger from your CLI. Run the following command to get the list of assets that were added to your channel ledger:
 ```
-peer chaincode query -C mychannel -n basic -c '{"Args":["GetAllAssets"]}'
+$ peer chaincode query -C mychannel -n basic -c '{"Args":["GetAllAssets"]}'
 ```
 If successful, you should see the following output:
 ```
@@ -325,7 +325,7 @@ If successful, you should see the following output:
 ```
 Chaincodes are invoked when a network member wants to transfer or change an asset on the ledger. Use the following command to change the owner of an asset on the ledger by invoking the asset-transfer (basic) chaincode:
 ```
-peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls --cafile "${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem" -C mychannel -n basic --peerAddresses localhost:7051 --tlsRootCertFiles "${PWD}/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt" --peerAddresses localhost:9051 --tlsRootCertFiles "${PWD}/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt" -c '{"function":"TransferAsset","Args":["asset6","Christopher"]}'
+$ peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls --cafile "${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem" -C mychannel -n basic --peerAddresses localhost:7051 --tlsRootCertFiles "${PWD}/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt" --peerAddresses localhost:9051 --tlsRootCertFiles "${PWD}/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt" -c '{"function":"TransferAsset","Args":["asset6","Christopher"]}'
 ```
 
 If the command is successful, you should see the following response:
@@ -354,7 +354,7 @@ export CORE_PEER_ADDRESS=localhost:9051
 
 You can now query the asset-transfer (basic) chaincode running on `peer0.org2.example.com`:
 ```
-peer chaincode query -C mychannel -n basic -c '{"Args":["ReadAsset","asset6"]}'
+$ peer chaincode query -C mychannel -n basic -c '{"Args":["ReadAsset","asset6"]}'
 ```
 
 The result will show that `"asset6"` was transferred to Christopher:
@@ -367,7 +367,7 @@ The result will show that `"asset6"` was transferred to Christopher:
 When you are finished using the test network, you can bring down the network
 with the following command:
 ```
-./network.sh down
+$ ./network.sh down
 ```
 
 The command will stop and remove the node and chaincode containers, delete the
@@ -455,12 +455,12 @@ for your applications.
 If you would like to bring up a network using Fabric CAs, first run the following
 command to bring down any running networks:
 ```
-./network.sh down
+$ ./network.sh down
 ```
 
 You can then bring up the network with the CA flag:
 ```
-./network.sh up -ca
+$ ./network.sh up -ca
 ```
 
 After you issue the command, you can see the script bringing up three CAs, one
@@ -484,7 +484,7 @@ establishes the identity's role and membership in the organization that operated
 the CA. You can use the following command to examine the MSP folder of the Org1
 admin user:
 ```
-tree organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/
+$ tree organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/
 ```
 The command will reveal the MSP folder structure and configuration file:
 ```
@@ -556,7 +556,7 @@ If you have any problems with the tutorial, review the following:
    to remove the artifacts, crypto material, containers, volumes, and chaincode
    images from previous runs:
    ```
-   ./network.sh down
+   $ ./network.sh down
    ```
    You **will** see errors if you do not remove old containers, images, and
    volumes.
@@ -569,8 +569,8 @@ If you have any problems with the tutorial, review the following:
 
    If problems persist, you can remove your images and start from scratch:
    ```
-   docker rm -f $(docker ps -aq)
-   docker rmi -f $(docker images -q)
+   $ docker rm -f $(docker ps -aq)
+   $ docker rmi -f $(docker images -q)
    ```
 -  If you are running Docker Desktop on macOS and experience the following error during chaincode installation:
    ```
@@ -613,7 +613,7 @@ If you have any problems with the tutorial, review the following:
    your Docker networks. This will wipe your previous networks and start you with a
    fresh environment:
    ```
-   docker network prune
+   $ docker network prune
    ```
 
    You will see the following message:
@@ -645,7 +645,7 @@ If you have any problems with the tutorial, review the following:
     [Windows](prereqs.html#windows)). There are several ways of fixing this. If you have
    access to the vim editor for instance, open the file:
    ```
-   vim ./fabric-samples/test-network/scripts/createChannel.sh
+   $ vim ./fabric-samples/test-network/scripts/createChannel.sh
    ```
 
    Then change its format by executing the following vim command:
