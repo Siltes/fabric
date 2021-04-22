@@ -281,7 +281,7 @@ export PATH=${PWD}/../bin:$PATH
 You also need to set the `FABRIC_CFG_PATH` to point to the `core.yaml` file in
 the `fabric-samples` repository:
 ```
-export FABRIC_CFG_PATH=$PWD/../config/
+export FABRIC_CFG_PATH=${PWD}/../config/
 ```
 You can now set the environment variables that allow you to operate the `peer`
  CLI as Org1:
@@ -606,7 +606,7 @@ If you have any problems with the tutorial, review the following:
 
    Then you did not set the ``FABRIC_CFG_PATH`` environment variable properly. The
    configtxgen tool needs this variable in order to locate the configtx.yaml. Go
-   back and execute an ``export FABRIC_CFG_PATH=$PWD/configtx/configtx.yaml``,
+   back and execute an ``export FABRIC_CFG_PATH=${PWD/configtx/configtx.yaml``,
    then recreate your channel artifacts.
 
 -  If you see an error stating that you still have "active endpoints", then prune
